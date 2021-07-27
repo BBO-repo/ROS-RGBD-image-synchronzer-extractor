@@ -1,0 +1,30 @@
+<!-- launch command example :
+    with default RGB and depth topics:
+    roslaunch src/RGBD-extractor/launch/rgbd_extractor.launch output_folder:=/home/ubuntu-bionic/Work/ROS/data/2021-07-15-14-02-35-image-extraction/
+    
+    specifying all parameters:
+    roslaunch src/RGBD-extractor/launch/rgbd_extractor.launch output_folder:=/home/ubuntu-bionic/Work/ROS/data/2021-07-15-14-02-35-image-extraction/ rgb_topic:=/camera/color/image_raw depth_topic:/camera/depth/image_rect_raw
+-->
+
+<launch>
+
+    <!-- Arguments: name of input and output topics -->
+    <arg name="rgb_topic" default="/camera/color/image_raw" />
+    <arg name="depth_topic" default="/camera/depth/image_rect_raw" />
+    <arg name="output_folder" default=""/>
+
+    <!-- Nodes: Rosbag player -->
+    <node pkg="rosbag" type="play" name="player" output="screen" required="true"
+          args="--clock /home/ubuntu-bionic/Work/ROS/data/2021-07-15-14-02-35.bag"/>
+
+    <!-- Node: RGBD image extractor -->
+    <!-- Parameters -->
+    <param name="rgb_sub_topic" value="$(arg rgb_topic)" />
+    <param name="depth_sub_topic" value="$(arg depth_topic)" />
+    <param name="output_folder" value="$(arg output_folder)" />
+    <node pkg="rgbd_image_extractor_package" name="rgbd_image_extractor" type="rgbd_image_extractor"
+          required="true" output="screen" respawn="false" />
+
+</launch>
+
+
