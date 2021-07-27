@@ -1,1 +1,1 @@
-# ROS1-RGBD-image-synchronzer-extractor
+# ROS-RGBD-image-synchronzer-extractor
